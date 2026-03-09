@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="APIShield — API Security Testing Framework aligned to OWASP API Security Top 10 (2023). Open source, on-premises, single-file.">
+<title>APIShield — API Security Testing Framework</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2300d4ff'/><text x='8' y='12' text-anchor='middle' font-size='9' fill='%23080c14' font-weight='bold'>AS</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#080c14;--bg2:#0c1220;--surface:#111a2a;--surface2:#162035;--text:#c8d6e5;--text2:#7a8ea0;--text3:#4a5d70;--cyan:#00d4ff;--cyan2:#40e0ff;--cyan-dim:#00d4ff08;--red:#ff4757;--amber:#f0a500;--green:#2ed573;--border:#1a2a40;--mono:'JetBrains Mono',monospace;--sans:'Inter',system-ui,sans-serif}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,212,255,0.008) 2px,rgba(0,212,255,0.008) 4px);pointer-events:none;z-index:9999}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* Topbar */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;justify-content:space-between}
+.topbar-brand{font-family:var(--mono);font-size:0.92rem;font-weight:700;color:var(--cyan)}
+.topbar-brand span{color:var(--text3);font-weight:400;font-size:0.7rem;margin-left:6px}
+.topbar-links{display:flex;gap:16px;font-size:0.75rem}
+.topbar-links a{color:var(--text2);text-decoration:none;transition:color .12s}
+.topbar-links a:hover{color:var(--cyan)}
+
+/* Hero */
+.hero{padding:56px 0 40px;text-align:center;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,#00d4ff06 0%,transparent 55%);pointer-events:none}
+.hero h1{font-family:var(--mono);font-size:2.8rem;font-weight:700;color:var(--cyan);letter-spacing:-1.5px;margin-bottom:8px;position:relative}
+.hero-sub{font-size:1rem;color:var(--text2);max-width:620px;margin:0 auto 24px;line-height:1.7}
+.hero-tags{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.htag{padding:4px 12px;border-radius:4px;font-family:var(--mono);font-size:0.66rem;font-weight:600;color:var(--cyan);border:1px solid #00d4ff28;background:var(--cyan-dim)}
+.hero-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{padding:10px 24px;border-radius:6px;font-family:var(--mono);font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .12s;border:none;display:inline-block}
+.btn-p{background:var(--cyan);color:#080c14}.btn-p:hover{background:var(--cyan2)}
+.btn-s{background:transparent;border:1px solid var(--border);color:var(--text2)}.btn-s:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* Terminal */
+.terminal{background:#050810;border:1px solid var(--border);border-radius:10px;overflow:hidden;max-width:760px;margin:44px auto;box-shadow:0 8px 40px rgba(0,0,0,0.4)}
+.term-bar{background:var(--bg2);padding:8px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border)}
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-body{padding:16px;font-family:var(--mono);font-size:0.7rem;line-height:1.85;color:var(--text2);overflow-x:auto;white-space:pre}
+.tc{color:var(--cyan)}.tg{color:var(--green)}.tr{color:var(--red)}.tw{color:var(--amber)}.tb{color:var(--text);font-weight:600}
+
+/* Sections */
+.section{padding:48px 0;border-bottom:1px solid var(--border)}
+.section:last-of-type{border-bottom:none}
+.sec-label{font-family:var(--mono);font-size:0.68rem;font-weight:600;color:var(--cyan);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.sec-title{font-size:1.25rem;font-weight:600;margin-bottom:6px}
+.sec-desc{font-size:0.88rem;color:var(--text2);line-height:1.7;max-width:640px;margin-bottom:24px}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:44px 0 0}
+@media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px 16px;text-align:center}
+.stat-n{font-family:var(--mono);font-size:2rem;font-weight:700;color:var(--cyan)}
+.stat-l{font-size:0.7rem;color:var(--text3);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+
+/* OWASP Grid */
+.owasp-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:700px){.owasp-grid{grid-template-columns:1fr}}
+.owasp-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;transition:border-color .12s;display:flex;gap:12px}
+.owasp-card:hover{border-color:var(--cyan)}
+.owasp-id{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.68rem;font-weight:700;flex-shrink:0;line-height:1.1;text-align:center}
+.sev-critical{background:#ff475715;color:#ff4757;border:1px solid #ff475725}
+.sev-high{background:#f0a50015;color:#f0a500;border:1px solid #f0a50025}
+.sev-medium{background:#00d4ff15;color:#00d4ff;border:1px solid #00d4ff25}
+.owasp-content{flex:1;min-width:0}
+.owasp-name{font-weight:600;font-size:0.88rem;margin-bottom:3px}
+.owasp-desc{font-size:0.76rem;color:var(--text2);line-height:1.55}
+.owasp-techniques{font-family:var(--mono);font-size:0.62rem;color:var(--text3);margin-top:6px}
+
+/* Code */
+.code{background:#050810;border:1px solid var(--border);border-radius:10px;padding:20px;font-family:var(--mono);font-size:0.76rem;color:var(--text2);line-height:1.9;overflow-x:auto}
+.code .c{color:var(--text3)}.code .k{color:var(--cyan)}
+
+/* Table */
+.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:0.8rem}
+th{text-align:left;padding:12px 14px;font-family:var(--mono);font-size:0.66rem;color:var(--cyan);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:0.5px;background:var(--bg2)}
+td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+
+/* Architecture */
+.arch{font-family:var(--mono);font-size:0.72rem;line-height:1.7;color:var(--text2);background:#050810;border:1px solid var(--border);border-radius:10px;padding:20px;overflow-x:auto;white-space:pre}
+.arch .h{color:var(--cyan);font-weight:700}.arch .s{color:var(--text3)}
+
+/* Severity badges */
+.sev{display:inline-block;padding:2px 8px;border-radius:4px;font-family:var(--mono);font-size:0.6rem;font-weight:700}
+.sev-c{background:#ff475718;color:#ff4757;border:1px solid #ff475728}
+.sev-h{background:#f0a50018;color:#f0a500;border:1px solid #f0a50028}
+.sev-m{background:#00d4ff18;color:#00d4ff;border:1px solid #00d4ff28}
+
+.footer{text-align:center;padding:40px 16px;font-size:0.72rem;color:var(--text3);border-top:1px solid var(--border);font-family:var(--mono)}
+.footer a{color:var(--cyan);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="topbar">
+    <div class="topbar-brand">APIShield <span>v1.0</span></div>
+    <div class="topbar-links">
+        <a href="https://github.com/SiteQ8/APIShield">Source Code</a>
+        <a href="https://github.com/SiteQ8/APIShield/issues">Issues</a>
+        <a href="https://github.com/SiteQ8/APIShield/discussions">Discussions</a>
+        <a href="https://owasp.org/API-Security/editions/2023/en/0x00-header/">OWASP API Top 10</a>
+    </div>
+</div>
+<div class="container">
+
+<!-- Hero -->
+<div class="hero">
+    <h1>APIShield</h1>
+    <div class="hero-sub">API Security Testing Framework aligned to the OWASP API Security Top 10 (2023). 10 automated test modules in a single Python script. On-premises deployable with zero cloud dependencies.</div>
+    <div class="hero-tags">
+        <span class="htag">OWASP API Top 10</span>
+        <span class="htag">BOLA / IDOR</span>
+        <span class="htag">SSRF</span>
+        <span class="htag">Injection</span>
+        <span class="htag">Rate Limiting</span>
+        <span class="htag">CORS</span>
+        <span class="htag">Auth Testing</span>
+        <span class="htag">Mass Assignment</span>
+        <span class="htag">On-Premises</span>
+    </div>
+    <div class="hero-actions">
+        <a class="btn btn-p" href="https://github.com/SiteQ8/APIShield">View Repository</a>
+        <a class="btn btn-s" href="https://raw.githubusercontent.com/SiteQ8/APIShield/main/apishield.py">Download Script</a>
+    </div>
+</div>
+
+<!-- Terminal Demo -->
+<div class="terminal">
+    <div class="term-bar">
+        <div class="term-dot" style="background:#ff5f57"></div>
+        <div class="term-dot" style="background:#febc2e"></div>
+        <div class="term-dot" style="background:#28c840"></div>
+        <span style="font-family:var(--mono);font-size:0.65rem;color:var(--text3);margin-left:8px">apishield@kw:~$</span>
+    </div>
+    <div class="term-body"><span class="tc">$</span> <span class="tb">python3 apishield.py -u https://api.target.com -H "Authorization: Bearer eyJ..."</span>
+
+<span class="tc">    ___    ____  __________ __    _      __    __</span>
+<span class="tc">   /   |  / __ \/  _/ ___// /_  (_)__  / /___/ /</span>
+<span class="tc">  / /| | / /_/ // / \__ \/ __ \/ / _ \/ / __  /</span>
+<span class="tc"> / ___ |/ ____// / ___/ / / / / /  __/ / /_/ /</span>
+<span class="tc">/_/  |_/_/   /___//____/_/ /_/_/\___/_/\__,_/</span>
+  API Security Testing Framework  v1.0
+
+  <span class="tg">[PASS]</span> Target: https://api.target.com — Status: 200
+
+<span class="tb">============================================================</span>
+  <span class="tc">[INFO]</span> API1:2023 — Broken Object Level Authorization (BOLA)
+  <span class="tr">[VULN]</span> BOLA: /api/users/124 returned 200 with different ID
+  <span class="tg">[PASS]</span> BOLA: /api/orders/999 properly returned 403
+
+<span class="tb">============================================================</span>
+  <span class="tc">[INFO]</span> API4:2023 — Unrestricted Resource Consumption
+  <span class="tr">[VULN]</span> No rate limiting on /api/users (20 requests, no 429)
+  <span class="tw">[WARN]</span> Large payload accepted at /api/users (100KB)
+
+<span class="tb">============================================================</span>
+  <span class="tc">[INFO]</span> API8:2023 — Security Misconfiguration
+  <span class="tr">[VULN]</span> CORS: Access-Control-Allow-Origin: *
+  <span class="tw">[WARN]</span> Missing header: Strict-Transport-Security
+  <span class="tw">[WARN]</span> Server disclosed: nginx/1.24.0
+  <span class="tg">[PASS]</span> No verbose error responses detected
+
+<span class="tb">============================================================</span>
+  <span class="tc">[INFO]</span> API9:2023 — Improper Inventory Management
+  <span class="tr">[VULN]</span> Exposed: /swagger.json [documentation]
+  <span class="tr">[VULN]</span> Exposed: /actuator/health [debug]
+  <span class="tg">[PASS]</span> No sensitive files (.git, .env) detected
+
+<span class="tb">============================================================</span>
+  APIShield Scan Complete
+  Target:          https://api.target.com
+  Tests Executed:  10
+  Vulnerabilities: 11
+  Security Score:  <span class="tr">45%</span>
+  Reports:         ./apishield_reports/
+<span class="tb">============================================================</span></div>
+</div>
+
+<!-- Stats -->
+<div class="stats">
+    <div class="stat"><div class="stat-n">941</div><div class="stat-l">Lines of Code</div></div>
+    <div class="stat"><div class="stat-n">10</div><div class="stat-l">OWASP Modules</div></div>
+    <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Endpoint Discovery</div></div>
+    <div class="stat"><div class="stat-n">0</div><div class="stat-l">Cloud Dependencies</div></div>
+</div>
+
+<!-- OWASP Tests -->
+<div class="section">
+    <div class="sec-label">OWASP API Security Top 10 (2023)</div>
+    <div class="sec-title">10 automated test modules covering every category</div>
+    <div class="sec-desc">Each module implements targeted detection techniques for its OWASP category, with severity classification, detailed findings, and actionable remediation guidance.</div>
+    <div class="owasp-grid">
+        <div class="owasp-card"><div class="owasp-id sev-critical">API1</div><div class="owasp-content"><div class="owasp-name">Broken Object Level Authorization</div><div class="owasp-desc">Tests for IDOR vulnerabilities by manipulating object identifiers. Detects when resources belonging to other users are accessible by incrementing numeric IDs, substituting UUIDs, or replacing MongoDB ObjectIDs.</div><div class="owasp-techniques">Techniques: ID increment, UUID swap, ObjectID brute, response comparison</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-critical">API2</div><div class="owasp-content"><div class="owasp-name">Broken Authentication</div><div class="owasp-desc">Probes authentication mechanisms for weaknesses. Tests weak credential pairs against login endpoints, checks for missing authentication on sensitive paths, and detects token leakage in responses.</div><div class="owasp-techniques">Techniques: Credential stuffing (5 pairs), auth bypass, token detection</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-high">API3</div><div class="owasp-content"><div class="owasp-name">Broken Object Property Level Authorization</div><div class="owasp-desc">Identifies mass assignment and excessive data exposure. Scans API responses for 16 sensitive field patterns (password, token, api_key, ssn, role) and tests writable endpoints for privilege escalation via property injection.</div><div class="owasp-techniques">Techniques: 16 field signatures, mass assignment payloads, role injection</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-high">API4</div><div class="owasp-content"><div class="owasp-name">Unrestricted Resource Consumption</div><div class="owasp-desc">Validates rate limiting and resource controls. Sends 20 rapid requests to detect missing 429 responses, checks for rate limit headers, tests 100KB payload acceptance, and probes pagination bypass with limit=999999.</div><div class="owasp-techniques">Techniques: Burst requests, header check, payload size, pagination abuse</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-critical">API5</div><div class="owasp-content"><div class="owasp-name">Broken Function Level Authorization</div><div class="owasp-desc">Discovers accessible administrative and debug endpoints. Probes 25 common paths (/admin, /actuator, /debug, /graphql, /metrics) and tests HTTP method tampering (sending DELETE to GET-only endpoints).</div><div class="owasp-techniques">Techniques: 25 admin paths, method tampering (GET/PUT/DELETE/PATCH)</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-medium">API6</div><div class="owasp-content"><div class="owasp-name">Unrestricted Access to Sensitive Flows</div><div class="owasp-desc">Detects business-critical operations lacking anti-automation controls. Identifies purchase, registration, password reset, and OTP endpoints, then checks for CAPTCHA, CSRF tokens, or step-up authentication.</div><div class="owasp-techniques">Techniques: 16 sensitive patterns, CAPTCHA/CSRF detection</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-high">API7</div><div class="owasp-content"><div class="owasp-name">Server Side Request Forgery (SSRF)</div><div class="owasp-desc">Tests URL-accepting parameters for internal network access. Injects internal targets (127.0.0.1, AWS IMDS 169.254.169.254, GCP metadata, Azure IMDS) through 16 common URL parameter names and checks for cloud metadata indicators.</div><div class="owasp-techniques">Techniques: 16 URL params x 3 internal targets, IMDS detection</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-medium">API8</div><div class="owasp-content"><div class="owasp-name">Security Misconfiguration</div><div class="owasp-desc">Audits security posture across CORS, headers, error handling, and HTTP methods. Tests origin reflection, checks 6 security headers, detects server version disclosure, probes for verbose stack traces, and identifies TRACE/TRACK methods.</div><div class="owasp-techniques">Techniques: CORS reflection, 6 headers, error probing, method audit</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-medium">API9</div><div class="owasp-content"><div class="owasp-name">Improper Inventory Management</div><div class="owasp-desc">Discovers exposed documentation, debug, and legacy endpoints. Concurrently scans 50+ paths including Swagger/OpenAPI, GraphQL, Spring Boot Actuator, .git, .env, old API versions (/v1, /v2, /beta, /staging, /dev), and pprof debug.</div><div class="owasp-techniques">Techniques: 50+ path brute, concurrent scanning, category classification</div></div></div>
+        <div class="owasp-card"><div class="owasp-id sev-high">API10</div><div class="owasp-content"><div class="owasp-name">Unsafe Consumption of APIs</div><div class="owasp-desc">Tests for injection vulnerabilities through API inputs. Sends payloads for 6 injection categories via both query parameters and JSON body: SQL (4 payloads), NoSQL (3), XSS (2), SSTI (3), command injection (4), and path traversal (2).</div><div class="owasp-techniques">Techniques: SQL, NoSQL, XSS, SSTI, cmd injection, path traversal</div></div></div>
+    </div>
+</div>
+
+<!-- Quick Start -->
+<div class="section">
+    <div class="sec-label">Deployment</div>
+    <div class="sec-title">Quick Start</div>
+    <div class="sec-desc">APIShield requires Python 3.8+ and the requests library. No API keys, accounts, or cloud services required. Runs entirely on your infrastructure.</div>
+    <div class="code"><span class="c"># Install</span>
+<span class="k">git clone https://github.com/SiteQ8/APIShield.git</span>
+<span class="k">cd APIShield && pip install requests</span>
+
+<span class="c"># Full scan against a target API</span>
+<span class="k">python3 apishield.py -u https://api.example.com</span>
+
+<span class="c"># Authenticated scan with Bearer token</span>
+<span class="k">python3 apishield.py -u https://api.example.com -H "Authorization: Bearer TOKEN"</span>
+
+<span class="c"># Scan specific endpoints</span>
+<span class="k">python3 apishield.py -u https://api.example.com -e /users,/orders,/admin/config</span>
+
+<span class="c"># Run only specific OWASP tests</span>
+<span class="k">python3 apishield.py -u https://api.example.com --tests API1,API4,API8</span>
+
+<span class="c"># Skip TLS verification (internal/staging APIs)</span>
+<span class="k">python3 apishield.py -u https://staging-api.internal --no-verify</span></div>
+</div>
+
+<!-- Parameters -->
+<div class="section">
+    <div class="sec-label">Reference</div>
+    <div class="sec-title">Command-Line Parameters</div>
+    <div class="tbl-wrap">
+    <table>
+        <thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+            <tr><td style="color:var(--cyan);font-weight:600">-u, --url</td><td>Required</td><td>Base URL of the target API</td></tr>
+            <tr><td style="color:var(--cyan);font-weight:600">-e, --endpoints</td><td>Optional</td><td>Comma-separated endpoint paths to test (e.g., /users,/orders)</td></tr>
+            <tr><td style="color:var(--cyan);font-weight:600">-H, --header</td><td>Optional</td><td>Custom HTTP header — repeatable (e.g., "Authorization: Bearer token")</td></tr>
+            <tr><td style="color:var(--cyan);font-weight:600">--tests</td><td>Optional</td><td>Specific OWASP tests to run (e.g., API1,API4,API8)</td></tr>
+            <tr><td style="color:var(--cyan);font-weight:600">--timeout</td><td>Optional</td><td>HTTP request timeout in seconds (default: 10)</td></tr>
+            <tr><td style="color:var(--cyan);font-weight:600">--no-verify</td><td>Optional</td><td>Skip TLS certificate verification for internal APIs</td></tr>
+            <tr><td style="color:var(--cyan);font-weight:600">--version</td><td>Flag</td><td>Display version number and exit</td></tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+
+<!-- Reporting -->
+<div class="section">
+    <div class="sec-label">Output</div>
+    <div class="sec-title">Reporting</div>
+    <div class="sec-desc">Every scan automatically generates two report formats. Both include per-finding severity classification, risk description, and actionable remediation guidance.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;text-align:center">
+            <div style="font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--cyan);margin-bottom:8px">JSON</div>
+            <div style="font-size:0.8rem;color:var(--text2);line-height:1.6">Structured data with full metadata, severity, findings, and remediation. Designed for CI/CD pipeline integration, SIEM ingestion, and GRC platform import.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;text-align:center">
+            <div style="font-family:var(--mono);font-size:1.2rem;font-weight:700;color:var(--cyan);margin-bottom:8px">HTML</div>
+            <div style="font-size:0.8rem;color:var(--text2);line-height:1.6">Visual report with color-coded severity, compliance score, and detailed findings. Suitable for management review, audit evidence, and stakeholder communication.</div>
+        </div>
+    </div>
+</div>
+
+<!-- Architecture -->
+<div class="section">
+    <div class="sec-label">Internals</div>
+    <div class="sec-title">Architecture</div>
+    <div class="arch"><span class="h">apishield.py</span> <span class="s">(941 lines, single file)</span>
+<span class="s">├──</span> <span class="h">Session</span>         HTTP client with retry logic, auth headers, timeout
+<span class="s">├──</span> <span class="h">TestBOLA</span>         API1 — Object-level authorization (IDOR)
+<span class="s">├──</span> <span class="h">TestBrokenAuth</span>   API2 — Authentication weakness detection
+<span class="s">├──</span> <span class="h">TestBOPLA</span>        API3 — Property-level auth (mass assignment)
+<span class="s">├──</span> <span class="h">TestResourceCons</span> API4 — Rate limiting, payload, pagination
+<span class="s">├──</span> <span class="h">TestBFLA</span>         API5 — Function-level auth (admin access)
+<span class="s">├──</span> <span class="h">TestSensFlows</span>    API6 — Business flow anti-automation
+<span class="s">├──</span> <span class="h">TestSSRF</span>         API7 — Server-side request forgery
+<span class="s">├──</span> <span class="h">TestMisconfig</span>    API8 — CORS, headers, errors, methods
+<span class="s">├──</span> <span class="h">TestInventory</span>    API9 — Endpoint discovery (50+ paths)
+<span class="s">├──</span> <span class="h">TestUnsafeCons</span>   API10 — Injection (SQL, NoSQL, XSS, SSTI, cmd)
+<span class="s">└──</span> <span class="h">Reporter</span>         JSON + HTML report generation with scoring</div>
+</div>
+
+</div>
+<div class="footer">
+    APIShield v1.0 — API Security Testing Framework<br>
+    OWASP API Security Top 10 (2023)<br>
+    MIT License &nbsp;|&nbsp; <a href="https://github.com/SiteQ8/APIShield">GitHub</a> &nbsp;|&nbsp; <a href="https://github.com/SiteQ8">@SiteQ8</a> — Ali AlEnezi
+</div>
+</body>
+</html>
