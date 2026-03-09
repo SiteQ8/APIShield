@@ -21,11 +21,11 @@
 
 ## Overview
 
-APIShield is an open-source API security testing framework that automates detection of the OWASP API Security Top 10 (2023) vulnerability categories. A single Python script (941 lines) runs 10 test modules against any REST API, generating JSON and HTML reports with severity classification and remediation guidance.
+APIShield is an open-source API security testing framework that automates detection of all OWASP API Security Top 10 (2023) vulnerability categories. It executes 10 specialized test modules against any REST API, generating JSON and HTML reports with severity classification and actionable remediation guidance.
 
 ### Design Principles
 
-- **Single-file deployment** — 941 lines of Python. No complex installation or infrastructure.
+- **Lightweight deployment** — Minimal dependencies. Production-ready in minutes, not days.
 - **Standards-aligned** — Every test maps to a specific OWASP API Security Top 10 (2023) category.
 - **On-premises** — Runs entirely on your infrastructure. No data leaves your environment.
 - **Authenticated scanning** — Pass Bearer tokens, API keys, or custom headers for authorized testing.
@@ -141,7 +141,7 @@ Score starts at 100% and deducts 5% per vulnerability found. Color-coded in the 
 ## Architecture
 
 ```
-apishield.py (941 lines)
+apishield.py
 ├── Session              HTTP client with retry logic, auth, timeout
 ├── TestBOLA             API1 — Object-level authorization (IDOR)
 ├── TestBrokenAuth       API2 — Authentication weakness detection

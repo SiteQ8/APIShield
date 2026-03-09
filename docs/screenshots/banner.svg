@@ -18,5 +18,5 @@
   <rect x="552" y="126" width="65" height="18" rx="3" fill="#00d4ff08" stroke="#00d4ff25" stroke-width="0.8"/><text x="584" y="138" text-anchor="middle" font-family="Consolas" font-size="8" font-weight="600" fill="#00d4ff">Inventory</text>
   <rect x="625" y="126" width="55" height="18" rx="3" fill="#00d4ff08" stroke="#00d4ff25" stroke-width="0.8"/><text x="652" y="138" text-anchor="middle" font-family="Consolas" font-size="8" font-weight="600" fill="#00d4ff">Mass</text>
   <rect x="688" y="126" width="55" height="18" rx="3" fill="#00d4ff08" stroke="#00d4ff25" stroke-width="0.8"/><text x="715" y="138" text-anchor="middle" font-family="Consolas" font-size="8" font-weight="600" fill="#00d4ff">Admin</text>
-  <text x="450" y="174" text-anchor="middle" font-family="Consolas" font-size="9" fill="#4a5d70">Python 3.8+  |  941 lines  |  10 modules  |  50+ endpoint discovery  |  JSON + HTML reports  |  MIT License</text>
+  <text x="450" y="174" text-anchor="middle" font-family="Consolas" font-size="9" fill="#4a5d70">Python 3.8+  |  10 OWASP modules  |  50+ endpoint discovery  |  JSON + HTML reports  |  On-premises  |  MIT License</text>
 </svg>
