@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-APIShield — API Security Testing Framework
+APIShield: API Security Testing Framework
 Tests REST APIs against OWASP API Security Top 10 (2023).
 
 Author: Ali AlEnezi (@SiteQ8)
@@ -88,10 +88,10 @@ class Session:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API1:2023 — Broken Object Level Authorization (BOLA)
+# API1:2023 - Broken Object Level Authorization (BOLA)
 # ═══════════════════════════════════════════════════════════════════════
 class TestBOLA:
-    """API1 — Tests for IDOR / broken object-level authorization."""
+    """API1: Tests for IDOR / broken object-level authorization."""
 
     ID = "API1:2023"
     NAME = "Broken Object Level Authorization (BOLA)"
@@ -144,10 +144,10 @@ class TestBOLA:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API2:2023 — Broken Authentication
+# API2:2023 - Broken Authentication
 # ═══════════════════════════════════════════════════════════════════════
 class TestBrokenAuth:
-    """API2 — Tests authentication mechanism weaknesses."""
+    """API2: Tests authentication mechanism weaknesses."""
 
     ID = "API2:2023"
     NAME = "Broken Authentication"
@@ -215,10 +215,10 @@ class TestBrokenAuth:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API3:2023 — Broken Object Property Level Authorization
+# API3:2023 - Broken Object Property Level Authorization
 # ═══════════════════════════════════════════════════════════════════════
 class TestBOPLA:
-    """API3 — Tests for mass assignment and excessive data exposure."""
+    """API3: Tests for mass assignment and excessive data exposure."""
 
     ID = "API3:2023"
     NAME = "Broken Object Property Level Authorization"
@@ -252,7 +252,7 @@ class TestBOPLA:
                 except Exception:
                     pass
 
-            # Mass assignment test — try adding admin/role fields
+            # Mass assignment test: try adding admin/role fields
             if ep.get('method', '').upper() in ['POST', 'PUT', 'PATCH']:
                 test_payloads = [
                     {"role": "admin", "is_admin": True},
@@ -280,10 +280,10 @@ class TestBOPLA:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API4:2023 — Unrestricted Resource Consumption
+# API4:2023 - Unrestricted Resource Consumption
 # ═══════════════════════════════════════════════════════════════════════
 class TestResourceConsumption:
-    """API4 — Tests rate limiting and resource exhaustion."""
+    """API4: Tests rate limiting and resource exhaustion."""
 
     ID = "API4:2023"
     NAME = "Unrestricted Resource Consumption"
@@ -300,7 +300,7 @@ class TestResourceConsumption:
         for ep in test_endpoints:
             path = ep.get('path', '/')
 
-            # Rate limiting test — send 20 rapid requests
+            # Rate limiting test: send 20 rapid requests
             responses = []
             for i in range(20):
                 resp = session.get(path)
@@ -364,10 +364,10 @@ class TestResourceConsumption:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API5:2023 — Broken Function Level Authorization
+# API5:2023 - Broken Function Level Authorization
 # ═══════════════════════════════════════════════════════════════════════
 class TestBFLA:
-    """API5 — Tests for horizontal/vertical privilege escalation."""
+    """API5: Tests for horizontal/vertical privilege escalation."""
 
     ID = "API5:2023"
     NAME = "Broken Function Level Authorization"
@@ -424,10 +424,10 @@ class TestBFLA:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API6:2023 — Unrestricted Access to Sensitive Business Flows
+# API6:2023 - Unrestricted Access to Sensitive Business Flows
 # ═══════════════════════════════════════════════════════════════════════
 class TestSensitiveFlows:
-    """API6 — Tests for abuse of business logic flows."""
+    """API6: Tests for abuse of business logic flows."""
 
     ID = "API6:2023"
     NAME = "Unrestricted Access to Sensitive Business Flows"
@@ -472,10 +472,10 @@ class TestSensitiveFlows:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API7:2023 — Server Side Request Forgery (SSRF)
+# API7:2023 - Server Side Request Forgery (SSRF)
 # ═══════════════════════════════════════════════════════════════════════
 class TestSSRF:
-    """API7 — Tests for SSRF vulnerabilities."""
+    """API7: Tests for SSRF vulnerabilities."""
 
     ID = "API7:2023"
     NAME = "Server Side Request Forgery (SSRF)"
@@ -524,10 +524,10 @@ class TestSSRF:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API8:2023 — Security Misconfiguration
+# API8:2023 - Security Misconfiguration
 # ═══════════════════════════════════════════════════════════════════════
 class TestMisconfig:
-    """API8 — Tests for security misconfiguration."""
+    """API8: Tests for security misconfiguration."""
 
     ID = "API8:2023"
     NAME = "Security Misconfiguration"
@@ -637,10 +637,10 @@ class TestMisconfig:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API9:2023 — Improper Inventory Management
+# API9:2023 - Improper Inventory Management
 # ═══════════════════════════════════════════════════════════════════════
 class TestInventory:
-    """API9 — Tests for exposed old/debug/undocumented endpoints."""
+    """API9: Tests for exposed old/debug/undocumented endpoints."""
 
     ID = "API9:2023"
     NAME = "Improper Inventory Management"
@@ -701,10 +701,10 @@ class TestInventory:
 
 
 # ═══════════════════════════════════════════════════════════════════════
-# API10:2023 — Unsafe Consumption of APIs
+# API10:2023 - Unsafe Consumption of APIs
 # ═══════════════════════════════════════════════════════════════════════
 class TestUnsafeConsumption:
-    """API10 — Tests for injection via API inputs."""
+    """API10: Tests for injection via API inputs."""
 
     ID = "API10:2023"
     NAME = "Unsafe Consumption of APIs"
