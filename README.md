@@ -11,7 +11,7 @@
 [![Tests](https://img.shields.io/badge/modules-10-00d4ff?style=flat-square)]()
 [![On-Prem](https://img.shields.io/badge/on--prem-deployable-00d4ff?style=flat-square)]()
 
-**API Security Testing Framework — OWASP API Security Top 10 (2023)**
+**API Security Testing Framework, OWASP API Security Top 10 (2023)**
 
 [Quick Start](#quick-start) · [Modules](#test-modules) · [Usage](#usage) · [Reporting](#reporting) · [Architecture](#architecture) · [Contributing](#contributing)
 
@@ -25,12 +25,12 @@ APIShield is an open-source API security testing framework that automates detect
 
 ### Design Principles
 
-- **Lightweight deployment** — Minimal dependencies. Production-ready in minutes, not days.
-- **Standards-aligned** — Every test maps to a specific OWASP API Security Top 10 (2023) category.
-- **On-premises** — Runs entirely on your infrastructure. No data leaves your environment.
-- **Authenticated scanning** — Pass Bearer tokens, API keys, or custom headers for authorized testing.
-- **Selective execution** — Run all 10 modules or target specific OWASP categories.
-- **Actionable output** — Every finding includes severity, risk description, and remediation steps.
+- **Lightweight deployment**: Minimal dependencies. Production-ready in minutes, not days.
+- **Standards-aligned**: Every test maps to a specific OWASP API Security Top 10 (2023) category.
+- **On-premises**: Runs entirely on your infrastructure. No data leaves your environment.
+- **Authenticated scanning**: Pass Bearer tokens, API keys, or custom headers for authorized testing.
+- **Selective execution**: Run all 10 modules or target specific OWASP categories.
+- **Actionable output**: Every finding includes severity, risk description, and remediation steps.
 
 ---
 
@@ -71,7 +71,7 @@ All 10 OWASP API Security Top 10 (2023) categories:
 | **Server Side Request Forgery** | API7:2023 | HIGH | 16 URL parameters tested against 3 internal targets (127.0.0.1, AWS IMDS, GCP/Azure metadata), cloud indicator detection |
 | **Security Misconfiguration** | API8:2023 | MEDIUM | CORS origin reflection, 6 security headers, Server/X-Powered-By disclosure, verbose error probing, TRACE/TRACK method detection |
 | **Improper Inventory Management** | API9:2023 | MEDIUM | 50+ endpoint discovery (Swagger, OpenAPI, GraphQL, Actuator, .git, .env, /v1-v3, /beta, /staging), concurrent scanning |
-| **Unsafe Consumption of APIs** | API10:2023 | HIGH | SQL injection (4), NoSQL (3), XSS (2), SSTI (3), command injection (4), path traversal (2) — via query params and JSON body |
+| **Unsafe Consumption of APIs** | API10:2023 | HIGH | SQL injection (4), NoSQL (3), XSS (2), SSTI (3), command injection (4), path traversal (2), via query params and JSON body |
 
 ---
 
@@ -132,9 +132,9 @@ Every scan generates two report files in `./apishield_reports/`:
 ### Security Score
 
 Score starts at 100% and deducts 5% per vulnerability found. Color-coded in the summary:
-- **80-100%** — Well secured
-- **60-79%** — Needs improvement
-- **Below 60%** — Critical gaps require immediate attention
+- **80-100%**: Well secured
+- **60-79%**: Needs improvement
+- **Below 60%**: Critical gaps require immediate attention
 
 ---
 
@@ -197,12 +197,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## License
 
-MIT License — see [LICENSE](LICENSE).
+MIT License, see [LICENSE](LICENSE).
 
 ---
 
 <div align="center">
-  <sub>APIShield — API Security Testing Framework</sub><br>
-  <sub><a href="https://github.com/SiteQ8">@SiteQ8</a> — Ali AlEnezi</sub><br>
+  <sub>APIShield, API Security Testing Framework</sub><br>
+  <sub><a href="https://github.com/SiteQ8">@SiteQ8</a>, Ali AlEnezi</sub><br>
   <sub>OWASP API Security Top 10 (2023)</sub>
 </div>
